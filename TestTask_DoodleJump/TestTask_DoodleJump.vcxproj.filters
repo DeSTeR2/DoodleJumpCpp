@@ -35,5 +35,8 @@
     <ClInclude Include="BallFire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BallController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

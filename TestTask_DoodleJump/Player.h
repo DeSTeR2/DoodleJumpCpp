@@ -4,17 +4,19 @@
 #include "Framework.h"
 #pragma comment(lib, "FrameworkRelease_x64.lib")
 
+#define ff first
+#define ss second
+
 class Player {
 private:
 	Sprite* sprite[3];
 	int curSprite=2;
-
-	float prefTime = 0.1;
+	double speed = 0.7;
 
 public: 
-	int targetY = 0;
+	double targetY = 0;
 	int width, height;
-	int posX, posY,dirX=0,dirY=1;
+	double posX, posY,dirX=0,dirY=1;
 
 	Player() {
 		sprite[0] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-left.png");
@@ -22,7 +24,7 @@ public:
 		sprite[2] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-right-odskok.png");
 		getSpriteSize(sprite[0], width, height);
 	}
-	Player(int x,int y) {
+	Player(double x, double y) {
 		sprite[0] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-left.png");
 		sprite[1] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-puca-odskok.png");
 		sprite[2] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-right-odskok.png");
@@ -46,21 +48,21 @@ public:
 		//if (dirY != 0) targetY = 0;
 
 		getSpriteSize(sprite[curSprite], width, height);
-		this->setPosition(this->posX + dirX, this->posY + dirY);
+		this->setPosition(this->posX + dirX* speed, this->posY + dirY* speed);
 	}
 
-	void move(int dirX,int dirY) {
+	void move(double dirX, double dirY) {
 		if (dirX > 0) curSprite = 2;
 		if (dirX == 0) curSprite = 1;
 		if (dirX < 0) curSprite = 0;
 		getSpriteSize(sprite[curSprite], width, height);
-		this->setPosition(this->posX + dirX, this->posY + dirY);
+		this->setPosition(this->posX + dirX* speed, this->posY + dirY* speed);
 	}
 
 	void moveToTarget() {
 		if (targetY == 0) return;
 		targetY--;
-		this->setPosition(this->posX + dirX, this->posY - 3);
+		this->setPosition(this->posX + dirX* speed, this->posY - 3* speed);
 	}
 
 	void jump() {
@@ -69,7 +71,7 @@ public:
 		moveToTarget();
 	}
 
-	void setPosition(int x,int y) {
+	void setPosition(double x, double y) {
 		posX = x;
 		posY = y;
 	}

@@ -134,6 +134,7 @@
     <ClCompile Include="TestTask_DoodleJump.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BallController.h" />
     <ClInclude Include="BallFire.h" />
     <ClInclude Include="DropPlatform.h" />
     <ClInclude Include="GamePlatforms.h" />

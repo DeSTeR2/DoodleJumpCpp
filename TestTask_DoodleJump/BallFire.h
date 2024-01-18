@@ -31,9 +31,9 @@ public:
 	}
 	BallFire(pair<double, double> vector, int speed, pair<double, double> position) {
 		vectorToMove = vector;
-		cout << vectorToMove.ff << " " << vectorToMove.ss << "|";
+		//cout << vectorToMove.ff << " " << vectorToMove.ss << "|";
 		vectorToMove = Normalize();
-		cout << vectorToMove.ff << " " << vectorToMove.ss << endl;
+		//cout << vectorToMove.ff << " " << vectorToMove.ss << endl;
 		this->speed = speed;
 		x = position.ff;
 		y = position.ss;

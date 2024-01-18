@@ -24,7 +24,7 @@ private:
 	bool dead = false, toDraw = true;
 
 	string type;
-	int dropChanse = 10;
+	int dropChanse = 25;
 public: 
 	Sprite* platform;
 	double x=-10, y=0;
@@ -58,11 +58,28 @@ private:
 public: 
 
 	void createType() {
-		
+
 		dropAnimationStage = 0;
 		dead = false;
 		toDraw = true;
 		if (rand() % 100 <= dropChanse) {
+			platform = createSprite(drop); type = "drop";
+		}
+		else {
+			platform = createSprite(normal);
+			type = "normal";
+		}
+		getSpriteSize(platform, width, height);
+		setSpriteSize(platform, width * spriteSize, height * spriteSize);
+		getSpriteSize(platform, width, height);
+	}
+
+	void createType(string getType) {
+
+		dropAnimationStage = 0;
+		dead = false;
+		toDraw = true;
+		if (getType =="drop") {
 			platform = createSprite(drop); type = "drop";
 		}
 		else {

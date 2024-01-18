@@ -136,10 +136,13 @@
   <ItemGroup>
     <ClInclude Include="BallController.h" />
     <ClInclude Include="BallFire.h" />
+    <ClInclude Include="Coins.h" />
+    <ClInclude Include="CoinsManager.h" />
     <ClInclude Include="DropPlatform.h" />
     <ClInclude Include="GamePlatforms.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScoreManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

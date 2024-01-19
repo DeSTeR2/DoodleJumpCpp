@@ -78,7 +78,7 @@ public:
 			sprintBootAbility = 1;
 		}
 
-		if ((this->posY+2 >= windowHeight)) {
+		if ((this->posY + 1 >= windowHeight)) {
 			reduseHealth();
 		}
 

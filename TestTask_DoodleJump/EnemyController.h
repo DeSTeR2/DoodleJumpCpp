@@ -12,7 +12,6 @@ class EnemyController {
 
 	void moveDown(double amount) {
 		for (int i = 0; i < EnemyNumber; i++) {
-			//if (!enemies[i]) continue;
 			enemies[i].setPosition(enemies[i].x, enemies[i].y + amount);
 		}
 	}
@@ -24,10 +23,6 @@ class EnemyController {
 	}
 
 	void createNew(int i, GamePlatforms& gamePlatforms) {
-		//if (!enemies[i]) return;
-		//delete enemies[i];
-		//enemies.erase(enemies.begin() + i, enemies.begin() + i + 1);
-
 		int y = windowHeight * (i + 1) - rand() % int(windowHeight * 0.5);
 
 		enemies[i] = Enemy(gamePlatforms, windowWidth, windowHeight,-y);
@@ -47,41 +42,40 @@ public:
 			targetY = gamePlatforms.targetY;
 
 		for (int i = 0; i < EnemyNumber; i++) {
-			//if (!enemies[i]) continue;
 			if (enemies[i].y > windowHeight) createNew(i, gamePlatforms);
 		}
 	}
 
 	void draw(BallController& balls, Player& player, GamePlatforms& gamePlatforms) {
 		for (int i = 0; i < EnemyNumber; i++) {
-			//if (enemies[i]) 
 				enemies[i].draw();
 		}
 		vector<BallFire>& ball = balls.getBalls();
 		for (int i = 0; i < EnemyNumber; i++) {
-			//if (!enemies[i]) continue;
 			if (enemies[i].isKilled()) continue;
 
 			if (enemies[i].isCollide(player)) {
 
+				Player pl = player;
+				pl.move(0, -3);
+				if (!enemies[i].isCollide(pl)) {
+					enemies[i].kill();
+					continue;
+				}
 
-				//cout << player.lowestPlatform.first << " " << player.lowestPlatform.second << endl;
 				gamePlatforms.setLowestPlatformOnPlayer(player);
-				//cout << player.lowestPlatform.first << " " << player.lowestPlatform.second << endl;
-
 				player.reduseHealth();
+				return;
 			}
 
-				if (enemies[i].y + enemies[i].height >= 0) {
-					for (int j = 0; j < ball.size(); j++) {
-						//cout << "Enemy pos: " << enemies[i]->x << " " << enemies[i]->y << endl << "Ball pos: "<;
-						if (enemies[i].isCollide(ball[j])) {
-							//cout << "KILLL\n";
-							enemies[i].kill();
-							ball[j].kill();
-						}
+			if (enemies[i].y + enemies[i].height >= 0) {
+				for (int j = 0; j < ball.size(); j++) {
+					if (enemies[i].isCollide(ball[j])) {
+						enemies[i].kill();
+						ball[j].kill();
 					}
 				}
+			}
 		}
 	}
 };

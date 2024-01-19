@@ -158,7 +158,7 @@ public:
 		case FRMouseButton::MIDDLE:
 			break;
 		case FRMouseButton::RIGHT:
-			createNewGame(true);
+			//createNewGame(true);
 			player->setSpringBoot();
 			break;
 		case FRMouseButton::COUNT:

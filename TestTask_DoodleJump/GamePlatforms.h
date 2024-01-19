@@ -39,7 +39,7 @@ public:
 				platforms[i].createType("normal");
 			}
 			else {
-				platforms[i].setPosition(rand() % windowWidth, platforms[i - 1].y - add);
+				platforms[i].setPosition(rand() % (windowWidth - platforms[i].getWidth()), platforms[i - 1].y - add);
 				platforms[i].createType();
 			}
 			
@@ -61,7 +61,7 @@ private:
 
 		int posY = int(platforms[last].y);
 
-		platform.setPosition(rand() % windowWidth, posY - add);
+		platform.setPosition(rand() % (windowWidth - platform.getWidth()), posY - add);
 		platform.createType();
 		last = i;
 
@@ -183,7 +183,7 @@ public:
 
 			if (platforms[i].y > lowestY && platforms[i].y < int(windowHeigth * 0.9) && platforms[i].getType() == "normal") {
 				lowestY = int(platforms[i].y);
-				//player.setLowestPlatform({ platforms[i].x, platforms[i].y });
+				player.setLowestPlatform({ platforms[i].x, platforms[i].y });
 			}
 		}
 	}

@@ -62,7 +62,7 @@ public:
 			killPlayer();
 			return;
 		}
-
+		posY = windowHeight-1;
 		targetY = windowHeight - lowestPlatform.ss + height;
 		posX = lowestPlatform.ff;
 	}

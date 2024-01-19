@@ -176,12 +176,14 @@ public:
 	}
 
 	void setLowestPlatformOnPlayer(Player& player) {
+
+		//cout << &player << endl;
 		int lowestY = 0;
 		for (int i = 0; i < platformNumber; i++) {
 
 			if (platforms[i].y > lowestY && platforms[i].y < int(windowHeigth * 0.9) && platforms[i].getType() == "normal") {
 				lowestY = int(platforms[i].y);
-				player.setLowestPlatform({ platforms[i].x, platforms[i].y });
+				//player.setLowestPlatform({ platforms[i].x, platforms[i].y });
 			}
 		}
 	}

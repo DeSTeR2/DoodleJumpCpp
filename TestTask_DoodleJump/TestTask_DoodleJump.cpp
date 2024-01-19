@@ -85,10 +85,21 @@ class Game : public Framework {
 		coinsManager = new CoinsManager(*player, coinNumber, windowWidth, windowHeight);
 		enemyController = new EnemyController(enemyNumber, spawnEnemyY, windowWidth, windowHeight, *gamePlatforms);
 
-		backGround = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\bck@2x.png");
+		backGround = createSprite(".\\data\\bck@2x.png");
 		int wid, hei;
 		getSpriteSize(backGround, wid, hei);
 		setSpriteSize(backGround, width, hei);
+	}
+
+	void checkNull() {
+		if (player == nullptr) createNewGame(1);
+		if (gamePlatforms == nullptr) createNewGame(1);
+		if (ballController == nullptr) createNewGame(1);
+		if (scoreManager == nullptr) createNewGame(1);
+		if (coinsManager == nullptr) createNewGame(1);
+		if (enemyController == nullptr) createNewGame(1);
+		//if (gamePlatforms == nullptr) createNewGame(1);
+
 	}
 
 public:
@@ -110,14 +121,17 @@ public:
 	}
 
 	virtual void Close() {
-		delete gamePlatforms;
 		delete player;
+		delete gamePlatforms;
 		delete ballController;
 		delete scoreManager;
+		delete coinsManager;
+		delete enemyController;
 	}
 
 
 	virtual bool Tick() {
+		checkNull();
 		createNewGame(player->isDead());
 		
 		draw();
@@ -144,6 +158,7 @@ public:
 		case FRMouseButton::MIDDLE:
 			break;
 		case FRMouseButton::RIGHT:
+			createNewGame(true);
 			player->setSpringBoot();
 			break;
 		case FRMouseButton::COUNT:

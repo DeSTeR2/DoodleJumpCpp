@@ -12,6 +12,7 @@ class EnemyController {
 
 	void moveDown(double amount) {
 		for (int i = 0; i < EnemyNumber; i++) {
+			if (!enemies[i]) continue;
 			enemies[i]->setPosition(enemies[i]->x, enemies[i]->y + amount);
 		}
 	}
@@ -23,6 +24,7 @@ class EnemyController {
 	}
 
 	void createNew(int i, GamePlatforms& gamePlatforms) {
+		if (!enemies[i]) return;
 		delete enemies[i];
 
 		int y = windowHeight * (i + 1) - rand() % int(windowHeight * 0.5);
@@ -44,16 +46,18 @@ public:
 			targetY = gamePlatforms.targetY;
 
 		for (int i = 0; i < EnemyNumber; i++) {
+			if (!enemies[i]) continue;
 			if (enemies[i]->y > windowHeight) createNew(i, gamePlatforms);
 		}
 	}
 
 	void draw(BallController& balls, Player& player, GamePlatforms& gamePlatforms) {
 		for (int i = 0; i < EnemyNumber; i++) {
-			enemies[i]->draw();
+			if (enemies[i]) enemies[i]->draw();
 		}
 		vector<BallFire>& ball = balls.getBalls();
 		for (int i = 0; i < EnemyNumber; i++) {
+			if (!enemies[i]) continue;
 			if (enemies[i]->isKilled()) continue;
 
 			if (enemies[i]->isCollide(player)) {

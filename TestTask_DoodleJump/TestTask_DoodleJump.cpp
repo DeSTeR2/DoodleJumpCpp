@@ -158,7 +158,6 @@ public:
 		case FRMouseButton::MIDDLE:
 			break;
 		case FRMouseButton::RIGHT:
-			//createNewGame(true);
 			player->setSpringBoot();
 			break;
 		case FRMouseButton::COUNT:
@@ -173,7 +172,6 @@ public:
 		switch (k) {
 		case FRKey::RIGHT:
 			player -> dirX = 1;
-			//gamePlatforms->test();
 			break;
 		case FRKey::LEFT:
 			player->dirX = -1;

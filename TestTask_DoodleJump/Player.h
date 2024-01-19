@@ -1,10 +1,8 @@
 #pragma once
 
 #include "BallFire.h"
-//#include "Framework.h"
 #include "Platform.h"
 #include "GamePlatforms.h"
-//#pragma comment(lib, "FrameworkRelease_x64.lib")
 
 #define ff first
 #define ss second
@@ -18,10 +16,8 @@ private:
 	
 	float sprintBootAbility = 1, springBootCost = 20;
 	int startSprintBootAbility = 0;
-	//GamePlatforms& gamePlatforms;
 
 public:
-	//vector<Platform> &platforms;
 	int health = 5;
 	double targetY = 0;
 	int width, height;
@@ -50,7 +46,6 @@ public:
 	}*/
 
 	void draw() {
-		//cout << "In player: " << lowestPlatform.ff << " " << lowestPlatform.ss << endl;
 		curSprite %= 3;
 		drawSprite(sprite[curSprite], int(posX), int(posY));
 	}
@@ -72,7 +67,6 @@ public:
 		if (dirX == 0)curSprite = 1;
 		if (dirX < 0) curSprite = 0;
 
-		//passedPlatforms += curCollide == lastCollide;
 
 		if ((getTickCount() - startSprintBootAbility) / 1000 >= 20) {
 			sprintBootAbility = 1;
@@ -84,9 +78,6 @@ public:
 
 		if (targetY > 0) moveToTarget();
 		if (dirY == 0) jump();
-		//if (dirY != 0) targetY = 0;
-
-		//getSpriteSize(sprite[curSprite], width, height);
 		this->setPosition(this->posX + dirX * speed, this->posY + (dirY) * 1);
 
 		if (this->posX >= windowWidth) this->posX = 0;
@@ -97,7 +88,6 @@ public:
 		if (dirX > 0) curSprite = 2;
 		if (dirX == 0) curSprite = 1;
 		if (dirX < 0) curSprite = 0;
-		//getSpriteSize(sprite[curSprite], width, height);
 		this->setPosition(this->posX + dirX * speed, this->posY + dirY * speed);
 	}
 

@@ -12,12 +12,12 @@ private:
 	double spriteSize = 0.6;
 
 	int width, height;
-	const char* normal = "D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\game-platform.png";
-	const char* drop = "D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\fall-platform1.png";
+	const char* normal = ".\\sprites\\game-platform.png";
+	const char* drop = ".\\sprites\\fall-platform1.png";
 	const char* dropAnimation[3] = {
-		"D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\fall-platform2.png",
-		"D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\fall-platform3.png",
-		"D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\fall-platform4.png"
+		".\\sprites\\fall-platform2.png",
+		".\\sprites\\fall-platform3.png",
+		".\\sprites\\fall-platform4.png"
 	};
 	int dropAnimationStage = -1;
 	int prefTime = 0;
@@ -27,7 +27,7 @@ private:
 	int dropChanse = 25;
 public: 
 	Sprite* platform;
-	double x=-10, y=0;
+	double x=10, y=0;
 	
 	Platform() {
 		createType();
@@ -70,7 +70,7 @@ public:
 			type = "normal";
 		}
 		getSpriteSize(platform, width, height);
-		setSpriteSize(platform, width * spriteSize, height * spriteSize);
+		setSpriteSize(platform, int(width * spriteSize), int(height * spriteSize));
 		getSpriteSize(platform, width, height);
 	}
 
@@ -87,7 +87,7 @@ public:
 			type = "normal";
 		}
 		getSpriteSize(platform, width, height);
-		setSpriteSize(platform, width * spriteSize, height * spriteSize);
+		setSpriteSize(platform, int(width * spriteSize), int(height * spriteSize));
 		getSpriteSize(platform, width, height);
 	}
 
@@ -102,9 +102,10 @@ public:
 		if (isCollideWithDot(player.posX, player.posY) || isCollideWithDot(player.posX + player.width, player.posY)
 			|| isCollideWithDot(player.posX, player.posY + player.height) || isCollideWithDot(player.posX + player.width, player.posY + player.height))
 		{
-			if (type =="normal") return true;
-			dead = true;
-			return false;
+			return true;
+			//if (type =="normal") return true;
+			//dead = true;
+			//return false;
 		}
 		
 		pair<double, double> first = { player.posX, player.posY };
@@ -113,9 +114,10 @@ public:
 		pair<double, double> forth = { player.posX + player.width, player.posY + player.height };
 
 		if (isCollideWithLine(first, third) || isCollideWithLine(second, forth)) {
-			if (type == "normal") return true;
-			dead = true;
-			return false;
+			return true;
+			//if (type == "normal") return true;
+			//dead = true;
+			//return false;
 		}
 
 		return false;
@@ -133,15 +135,34 @@ public:
 			prefTime = getTickCount();
 			platform = createSprite(dropAnimation[dropAnimationStage]);
 			getSpriteSize(platform, width, height);
-			setSpriteSize(platform, width * spriteSize, height * spriteSize);
+			setSpriteSize(platform, int(width * spriteSize), int(height * spriteSize));
 			getSpriteSize(platform, width, height);
 		
 		}
 	}
 
+	int getHeight() {
+		return height;
+	}
+
+	int getWidth() {
+		return width;
+	}
+
 	void draw() {
 		deadAnimation(dead);
-		drawSprite(platform, x, y);
+		drawSprite(platform, int(x), int(y));
+	}
+
+	string getType() {
+		return type;
+	}
+
+	bool kill() {
+		if (type == "drop") {
+			dead = true;
+		}
+		return dead;
 	}
 
 };

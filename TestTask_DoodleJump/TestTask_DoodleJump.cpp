@@ -12,6 +12,8 @@ using namespace std;
 #include "BallController.h"
 #include "ScoreManager.h"
 #include "CoinsManager.h"
+#include "EnemyController.h"
+
 
 #pragma comment(lib, "FrameworkRelease_x64.lib")
 
@@ -21,8 +23,10 @@ int windowHeight = 600;
 
 int platformNumber = 50;
 int spawnPlatform = -250;
-int destroyPlatform = windowHeight + 100;
+int destroyPlatform = windowHeight;
 int coinNumber = 10;
+
+int enemyNumber = 4, spawnEnemyY = -200;
 
 double ballSpeed = 2.1;
 
@@ -35,6 +39,7 @@ class Game : public Framework {
 	BallController* ballController;
 	ScoreManager* scoreManager;
 	CoinsManager* coinsManager;
+	EnemyController* enemyController;
 
 	Sprite* backGround;
 
@@ -48,6 +53,7 @@ class Game : public Framework {
 		player->draw();
 		ballController->draw();
 		coinsManager->draw();
+		enemyController->draw(*ballController, *player, *gamePlatforms);
 
 		int score = gamePlatforms->getScore();
 		int passedPlatforms = gamePlatforms->getPassedPlatforms();
@@ -60,20 +66,24 @@ class Game : public Framework {
 		gamePlatforms->move(*player);
 		player->move();
 		coinsManager->move(*gamePlatforms);
+		enemyController->move(*gamePlatforms);
 	}
 	
 	void createNewGame(bool create) {
 		if (!create) return;
-		delete gamePlatforms;
 		delete player;
+		delete gamePlatforms;
 		delete ballController;
 		delete scoreManager;
+		delete coinsManager;
+		delete enemyController;
 
-		gamePlatforms = new GamePlatforms(platformNumber, spawnPlatform, destroyPlatform, width, height);
 		player = new Player(windowWidth, windowHeight);
+		gamePlatforms = new GamePlatforms(platformNumber, spawnPlatform, destroyPlatform, width, height, *player);
 		ballController = new BallController(*player, ballSpeed, windowWidth, windowHeight);
 		scoreManager = new ScoreManager(20, 20, windowWidth, windowHeight);
 		coinsManager = new CoinsManager(*player, coinNumber, windowWidth, windowHeight);
+		enemyController = new EnemyController(enemyNumber, spawnEnemyY, windowWidth, windowHeight, *gamePlatforms);
 
 		backGround = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\bck@2x.png");
 		int wid, hei;
@@ -113,6 +123,9 @@ public:
 		draw();
 		move();
 		
+		//enemyController->move(*gamePlatforms);
+		//enemyController->draw();
+
 		return false;
 	}
 

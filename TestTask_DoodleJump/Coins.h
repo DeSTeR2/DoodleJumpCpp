@@ -8,10 +8,10 @@ class Coins {
 	//Player* player;
 	int width, height;
 
-	void reSize(Sprite& sprite, float spriteMulti) {
+	void reSize(Sprite& sprite, double spriteMulti) {
 		int wid, hei;
 		getSpriteSize(&sprite, wid, hei);
-		setSpriteSize(&sprite, wid * spriteMulti, hei * spriteMulti);
+		setSpriteSize(&sprite, int(wid * spriteMulti), int(hei * spriteMulti));
 		//getSpriteSize(&sprite, width, height);
 	}
 
@@ -30,9 +30,9 @@ class Coins {
 	}
 
 public:
-	int x = 20, y = 20;
+	double x = 20, y = 20;
 	Coins() {
-		sprite = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\coin.png");
+		sprite = createSprite(".\\sprites\\coin.png");
 		reSize(*sprite, 0.05);
 		getSpriteSize(sprite, width, height);
 		//cout << "CoinCreated\n";
@@ -60,10 +60,10 @@ public:
 	}
 	
 	void draw() {
-		drawSprite(sprite, x, y);
+		drawSprite(sprite, int(x), int(y));
 	}
 
-	void setPosition(int x,int y) {
+	void setPosition(double x,double y) {
 		this->x = x;
 		this->y = y; 
 	}

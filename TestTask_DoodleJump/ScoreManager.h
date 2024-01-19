@@ -12,10 +12,10 @@ class ScoreManager {
 	int width, height;
 	int windowWidth, windowHeight;
 
-	void reSize(Sprite& sprite, float spriteMulti) {
+	void reSize(Sprite& sprite, double spriteMulti) {
 		int wid, hei;
 		getSpriteSize(&sprite, wid, hei);
-		setSpriteSize(&sprite, wid * spriteMulti, hei * spriteMulti);
+		setSpriteSize(&sprite,int( wid * spriteMulti), int(hei * spriteMulti));
 		//getSpriteSize(&sprite, width, height);
 	}
 
@@ -39,7 +39,7 @@ class ScoreManager {
 public:
 
 	ScoreManager(int x,int y, int windowWidth, int windowHeight) : posX(x), posY(y), windowWidth(windowWidth), windowHeight(windowHeight){
-		string path = "D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\";
+		string path = ".\\sprites\\";
 		for (int i = 0; i < 10; i++) {
 			string addPath = path + char(i + '0') + ".png";
 			const char* spritePath = addPath.c_str();
@@ -49,16 +49,16 @@ public:
 			getSpriteSize(number[i], width, height);
 		}
 
-		score = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\score.png");
+		score = createSprite(".\\sprites\\score.png");
 		//reSize(*score);
 		
-		passedPlatforms = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\passedPlatforms.png");
+		passedPlatforms = createSprite(".\\sprites\\passedPlatforms.png");
 		reSize(*passedPlatforms, 0.15);
 	
-		heart = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\heart.png");
+		heart = createSprite(".\\sprites\\heart.png");
 		reSize(*heart, 0.05);
 
-		coin = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\coin.png");
+		coin = createSprite(".\\sprites\\coin.png");
 		reSize(*coin, 0.08);
 	}
 

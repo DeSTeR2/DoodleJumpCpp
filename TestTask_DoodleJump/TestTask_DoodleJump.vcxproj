@@ -139,6 +139,8 @@
     <ClInclude Include="Coins.h" />
     <ClInclude Include="CoinsManager.h" />
     <ClInclude Include="DropPlatform.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyController.h" />
     <ClInclude Include="GamePlatforms.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />

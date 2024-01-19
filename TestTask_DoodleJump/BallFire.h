@@ -11,8 +11,8 @@ class BallFire {
 private:
 	Sprite* sprite;
 	pair<double, double> vectorToMove;
-	int speed;
-	double x=-1e9, y=-1e9;
+	double speed;
+	bool killed = false;
 
 
 	double VectorMadnitude() {
@@ -25,9 +25,12 @@ private:
 	}
 
 public:
+	double x=-1e9, y=-1e9;
+	int width, height;
 
 	BallFire() {
-		sprite = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\ball.png");
+		sprite = createSprite(".\\sprites\\ball.png");
+		getSpriteSize(sprite, width, height);
 	}
 	BallFire(pair<double, double> vector, int speed, pair<double, double> position) {
 		vectorToMove = vector;
@@ -37,25 +40,37 @@ public:
 		this->speed = speed;
 		x = position.ff;
 		y = position.ss;
-		sprite = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\sprites\\ball.png");
+		sprite = createSprite(".\\sprites\\ball.png");
 	}
 
+	//bool checkCollide(Enemy enemy) {
+	//	return enemy.isCollide(*this);
+	//}
+
 	void move() {
+
+		if (killed) x = -100;
+
 		x += vectorToMove.ff * speed;
 		y += vectorToMove.ss * speed;
 	}
 
 	void draw() {
-		if(x!=-1e9 || y!=-1e9) drawSprite(sprite, x, y);
+		if (killed) return;
+		if(x!=-1e9 || y!=-1e9) drawSprite(sprite, int(x), int(y));
 	}
 
-	void setPosition(int x, int y) {
+	void setPosition(double x, double y) {
 		this->x = x;
 		this->y = y;
 	}
 
 	bool outOfWindow(int width, int height) {
 		return x > width || x < 0 || y<0 || y>height;
+	}
+
+	void kill() {
+		killed = true;
 	}
 
 	void destroy() {

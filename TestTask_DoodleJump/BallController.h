@@ -11,19 +11,21 @@ class BallController {
 private:
 	vector <BallFire> balls;
 	Player& player;
-	float speed = 0;
+	double speed = 0;
 	int windowWidth, windowHeight;
 
 public:
-	BallController(Player& player, float speed, int windowWidth, int windowHeight) : player(player), speed(speed), windowWidth(windowWidth), windowHeight(windowHeight){
+	BallController(Player& player, double speed, int windowWidth, int windowHeight) : player(player), speed(speed), windowWidth(windowWidth), windowHeight(windowHeight){
 
 	}
 
+	vector<BallFire>& getBalls() {
+		return balls;
+	}
+
 	void createBall(pair<int,int> mousePosition) {
-
-
 		pair<double, double> pos = { player.posX + player.width / 2, player.posY + player.height / 2 };
-		BallFire ball({ mousePosition.ff - pos.ff, mousePosition.ss - pos.ss }, speed, pos);
+		BallFire ball({ mousePosition.ff - pos.ff, mousePosition.ss - pos.ss }, int(speed), pos);
 		balls.push_back(ball);
 	}
 

@@ -4,7 +4,7 @@
 
 class CoinsManager {
 	int coinNumber;
-	float speed = 0.4;
+	double speed = 0.4;
 	Player& player;
 	Coins coins[100];
 	int destroyCoinY;
@@ -21,7 +21,7 @@ class CoinsManager {
 	void moveToTarget() {
 		if (targetY == 0) return;
 		targetY--;
-		this->moveDown(3 * speed);
+		this->moveDown(int(3 * speed));
 	}
 
 	void createNew(int i) {

@@ -2,6 +2,7 @@
 
 #include "BallFire.h"
 //#include "Framework.h"
+#include "Platform.h"
 #include "GamePlatforms.h"
 //#pragma comment(lib, "FrameworkRelease_x64.lib")
 
@@ -14,25 +15,30 @@ private:
 	int curSprite = 2;
 	double speed = 0.7;
 	bool isKilled = false;
-	pair<int, int> lowestPlatform;
+	
 	float sprintBootAbility = 1, springBootCost = 20;
 	int startSprintBootAbility = 0;
+	//GamePlatforms& gamePlatforms;
 
 public:
+	//vector<Platform> &platforms;
 	int health = 5;
 	double targetY = 0;
 	int width, height;
 	double posX, posY, dirX = 0, dirY = 1;
 	int windowWidth, windowHeight;
 	int coins = 0;
+	int passedPlatforms = 0;
+	pair<int, int> lowestPlatform;
+
 
 	Player(int windowWidth, int  windowHeight) : windowWidth(windowWidth), windowHeight(windowHeight) {
-		sprite[0] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-left.png");
-		sprite[1] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-puca-odskok.png");
-		sprite[2] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-right-odskok.png");
-		getSpriteSize(sprite[0], width, height);
+		sprite[0] = createSprite(".\\data\\blue-lik-left.png");
+		sprite[1] = createSprite(".\\data\\blue-lik-puca-odskok.png");
+		sprite[2] = createSprite(".\\data\\blue-lik-right-odskok.png");
+		getSpriteSize(sprite[1], width, height);
 		posX = windowWidth / 2;
-		posY = windowHeight - 30 - height;
+		posY = windowHeight / 2;
 	}
 	/*Player(int windowWidth, int windowHeight) : windowWidth(windowWidth), windowHeight(windowHeight) {
 		sprite[0] = createSprite("D:\\Codes\\C++\\TestTask_doodlejump\\TestTask_DoodleJump\\TestTask_DoodleJump\\data\\blue-lik-left.png");
@@ -44,8 +50,21 @@ public:
 	}*/
 
 	void draw() {
+		//cout << "In player: " << lowestPlatform.ff << " " << lowestPlatform.ss << endl;
 		curSprite %= 3;
-		drawSprite(sprite[curSprite], posX, posY);
+		drawSprite(sprite[curSprite], int(posX), int(posY));
+	}
+
+	void reduseHealth() {
+		health--;
+		if (health <= 0) {
+			this->posY += 10;
+			killPlayer();
+			return;
+		}
+
+		targetY = windowHeight - lowestPlatform.ss + height;
+		posX = lowestPlatform.ff;
 	}
 
 	void move() {
@@ -53,27 +72,21 @@ public:
 		if (dirX == 0)curSprite = 1;
 		if (dirX < 0) curSprite = 0;
 
+		//passedPlatforms += curCollide == lastCollide;
 
 		if ((getTickCount() - startSprintBootAbility) / 1000 >= 20) {
 			sprintBootAbility = 1;
 		}
 
 		if ((this->posY+2 >= windowHeight)) {
-			health--;
-			if (health <= 0) {
-				this->posY += 10;
-				return;
-			}
-
-			targetY = windowHeight - lowestPlatform.ss + height;
-			posX = lowestPlatform.ff;
+			reduseHealth();
 		}
 
 		if (targetY > 0) moveToTarget();
 		if (dirY == 0) jump();
 		//if (dirY != 0) targetY = 0;
 
-		getSpriteSize(sprite[curSprite], width, height);
+		//getSpriteSize(sprite[curSprite], width, height);
 		this->setPosition(this->posX + dirX * speed, this->posY + (dirY) * 1);
 
 		if (this->posX >= windowWidth) this->posX = 0;
@@ -84,7 +97,7 @@ public:
 		if (dirX > 0) curSprite = 2;
 		if (dirX == 0) curSprite = 1;
 		if (dirX < 0) curSprite = 0;
-		getSpriteSize(sprite[curSprite], width, height);
+		//getSpriteSize(sprite[curSprite], width, height);
 		this->setPosition(this->posX + dirX * speed, this->posY + dirY * speed);
 	}
 
@@ -111,7 +124,7 @@ public:
 
 	void setSpringBoot() {
 		if (coins >= springBootCost) {
-			coins -= springBootCost;
+			coins -= int(springBootCost);
 			sprintBootAbility = 2.5;
 			startSprintBootAbility = getTickCount();
 		}
@@ -126,6 +139,6 @@ public:
 	}
 
 	bool isDead() {
-		return ((this->posY > windowHeight) | isKilled);
+		return ((this->posY > windowHeight) || isKilled);
 	}
 };

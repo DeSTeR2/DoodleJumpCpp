@@ -132,7 +132,7 @@ public:
 
 		int lowestY = 0, lowestIndex=0;
 		
-		//setLowestPlatformOnPlayer(player);
+		setLowestPlatformOnPlayer(player);
 		
 		//cout << "Score: " << score << endl << "Passed platforms: " << passedPlatforms << endl << endl;
 		for (int i = 0; i < platformNumber; i++) {

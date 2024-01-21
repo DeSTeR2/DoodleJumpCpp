@@ -3,6 +3,7 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
+#include <windows.h>
 #include <sstream>
 using namespace std;
 
@@ -14,12 +15,15 @@ using namespace std;
 #include "CoinsManager.h"
 #include "EnemyController.h"
 
-
 #pragma comment(lib, "FrameworkRelease_x64.lib")
 
 
-int windowWidth = 800;
-int windowHeight = 600;
+bool stopProgram = false;
+
+string args = "game -window";
+
+int windowWidth = 1000;
+int windowHeight = 800;
 
 int platformNumber = 50;
 int spawnPlatform = -250;
@@ -79,7 +83,7 @@ class Game : public Framework {
 		delete enemyController;
 
 		player = new Player(windowWidth, windowHeight);
-		gamePlatforms = new GamePlatforms(platformNumber, spawnPlatform, destroyPlatform, width, height, *player);
+		gamePlatforms = new GamePlatforms(int((windowWidth+ windowHeight)*0.2), spawnPlatform, destroyPlatform, windowWidth, windowHeight, *player);
 		ballController = new BallController(*player, ballSpeed, windowWidth, windowHeight);
 		scoreManager = new ScoreManager(20, 20, windowWidth, windowHeight);
 		coinsManager = new CoinsManager(*player, coinNumber, windowWidth, windowHeight);
@@ -98,7 +102,6 @@ class Game : public Framework {
 		if (scoreManager == nullptr) createNewGame(1);
 		if (coinsManager == nullptr) createNewGame(1);
 		if (enemyController == nullptr) createNewGame(1);
-		//if (gamePlatforms == nullptr) createNewGame(1);
 
 	}
 
@@ -107,15 +110,15 @@ public:
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
 	{
-		//player.setPosition(100, 100);
+		width = windowWidth;
+		height = windowHeight;
 		this->width = width;
 		this->height = height;
-		windowWidth = width;
-		windowHeight = height;
 		fullscreen = false;
 	}
 
-	virtual bool Init() {
+	virtual bool Init() {  
+		PreInit(windowWidth, windowHeight, fullScreen);
 		createNewGame(true);
 		return true;
 	}
@@ -136,17 +139,11 @@ public:
 		
 		draw();
 		move();
-		
-		//enemyController->move(*gamePlatforms);
-		//enemyController->draw();
-
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
 		mousePos = {x,y};
-		//cout << x << " " << y << " " << xrelative << " " << yrelative << endl;
-		//cout << player -> posX + player -> width << " " << player -> posY + player->height<< endl;
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
@@ -212,22 +209,31 @@ public:
 
 int main(int argc, char* argv[]) { 
 	srand(time(0));
+	
+	if (argc >= 4) {
+		string first(argv[1]);
+		string second(argv[2]);
+		
+		if (first + ' ' + second == args) {
 
-	Game game;
-	game.PreInit(windowWidth, windowHeight, fullScreen);
-	// Check if command-line arguments are provided
-	if (argc == 4 && std::string(argv[1]) == "-window") {
-		std::istringstream widthStream(argv[2]);
-		std::istringstream heightStream(argv[3]);
+			string arg(argv[3]);
+			string width, height;
+			bool sec = false;
+			for (int i = 0; i < arg.size(); i++) {
+				if (arg[i] == 'x') sec = true;
+				if (!sec) width += arg[i];
+				else if (arg[i] != 'x') height += arg[i];
+			}
 
-		if (widthStream >> windowWidth && heightStream >> windowHeight) {
-			std::cout << "Window size set to: " << windowWidth << "x" << windowHeight << std::endl;
-			game.PreInit(windowWidth, windowHeight, fullScreen);
-		}
-		else {
-			std::cerr << "Invalid window size arguments. Using default size (800x600).\n";
+			windowWidth = atoi(width.c_str());
+			windowHeight = atoi(height.c_str());
+
+			cout << "Window size set to: " << windowWidth << "x" << windowHeight << '\n';
 		}
 	}
 
-	return run(new Game);
+	
+	Game* game = new Game;
+
+	return run(game);
 }

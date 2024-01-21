@@ -64,7 +64,7 @@ public:
 				}
 
 				gamePlatforms.setLowestPlatformOnPlayer(player);
-				player.reduseHealth();
+				player.setPosition(0,windowHeight);
 				return;
 			}
 

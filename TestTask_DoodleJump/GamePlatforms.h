@@ -106,12 +106,12 @@ public:
 
 	void draw() {
 		for (int i = 0; i < platformNumber; i++) {
-			if (platforms[i].y >= destroyPlatformY) createNewPlatform(platforms[i], i);
+			if (platforms[i].y >= windowHeigth) createNewPlatform(platforms[i], i);
 			platforms[i].draw();
 		}
 		vector<Platform> newPlat;
 		for (int i = 0; i < additionalPlatforms.size(); i++) {
-			if (additionalPlatforms[i].y >= destroyPlatformY) {
+			if (additionalPlatforms[i].y >= windowHeigth) {
 				continue;
 			}
 			newPlat.push_back(additionalPlatforms[i]);
